@@ -1,28 +1,26 @@
+
 export default class Entity {
-  constructor({ name = "Entity", components = [], config = null }) {
-    this.id = crypto.randomUUID();
-    this.name = name;
-    this._components = components;
-    this.config = config;
-  }
+    constructor({name = 'Entity', components = []}) {
+        this.id = crypto.randomUUID();
+        this.name = name;
+        this.components = components;
+    }
 
-  attachComponents(...components) {
-    this._components = [...this._components, ...components];
-  }
+    attachComponents(...components){
+        this.components = [...this.components, ...components];
+    }
 
-  deleteComponents(...components) {
-    components.forEach((component) => component.delete());
-    this._components = this._components.filter(
-      (component) => !components.includes(component)
-    );
-  }
+    deleteComponents(...components){
+        components.forEach(component => component.delete());
+        this.components = this.components.filter(component => !components.includes(component));
+    }
 
-  deleteAllComponents() {
-    this._components.forEach((component) => component.delete());
-    this._components = [];
-  }
+    deleteAllComponents(){
+        this.components.forEach(component => component.delete());
+        this.components = [];
+    }
 
-  getComponents() {
-    return this._components;
-  }
+    getComponents(){
+       return this.components;
+    }
 }

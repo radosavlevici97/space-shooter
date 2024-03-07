@@ -4,9 +4,9 @@ import { Container, Sprite } from "pixi.js";
 export default class RenderableComponent extends Component {
   constructor({ displayObjectSource = Container, asset, ...args }) {
     super(args);
-    this.displayObject = this._create({ displayObjectSource, asset });
     this._attachable = this.config?.attachable || true;
     this._guidePositions = this.config?.guidePositions;
+    this.displayObject = this.create({ displayObjectSource, asset });
     this.init();
   }
 
@@ -29,19 +29,15 @@ export default class RenderableComponent extends Component {
     };
   }
 
-  set position(value) {
-    this.displayObject.position.set(...value);
-  }
-
-  set x(value) {
-    this.displayObject.x = value;
-  }
-
-  set y(value) {
-    this.displayObject.y = value;
-  }
-
   init() {}
+
+  create({ displayObjectSource, asset }) {
+    if (!asset) {
+      return new displayObjectSource();
+    }
+
+    return displayObjectSource.from(asset);
+  }
 
   addChild(child) {
     this.displayObject.addChild(child);
@@ -53,13 +49,5 @@ export default class RenderableComponent extends Component {
 
   removeChildren() {
     this.displayObject.removeChildren();
-  }
-
-  _create({ displayObjectSource, asset }) {
-    if (!asset) {
-      return new displayObjectSource();
-    }
-
-    return displayObjectSource.from(asset);
   }
 }

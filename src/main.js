@@ -33,6 +33,7 @@ function resize() {
 
   // Update renderer  and navigation screens dimensions
   app.renderer.resize(width, height);
+  console.log(app.view);
 }
 
 /** Setup app and initialise assets */

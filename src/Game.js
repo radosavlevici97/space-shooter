@@ -7,6 +7,7 @@ import BackgroundStar from "./custom-components/background/BackgroundStar";
 import PlayerCharacter from "./custom-components/characters/PlayerCharacter";
 import EnemyCharacter from "./custom-components/characters/EnemyCharacter";
 import BackgroundPhysics from "./custom-components/background/BackgroundPhysics";
+import RenderableEntity from "./core/entities/RenderableEntity";
 import EnemyFireSystem from "./custom-systems/fire-system/EnemyFireSystem";
 import LaserComponent from "./custom-components/LaserComponent";
 import PlayerFireSystem from "./custom-systems/fire-system/PlayerFireSystem";
@@ -30,14 +31,14 @@ class Game {
       config: Config.playerComponent,
     });
 
-    const backgroundDisplayObjectComponent = new BackgroundStar({
+    const backgroundStarComponent = new BackgroundStar({
       name: "starComponent",
       displayObjectSource: Sprite,
       asset: "star",
     });
 
     const backgroundPhysicsComponent = new BackgroundPhysics({
-      name: "physicsComponent",
+      name: "backgroundPhysicsComponent",
       config: Config.backgroundPhysics,
     });
 
@@ -53,49 +54,24 @@ class Game {
     const playerRocketLauncherComponent = new RocketLauncherComponent({
       name: "rocketLauncher",
       rocketAsset: "rocket",
-      config: Config.rocketLauncher,
-    });
-
-    const playerElementsContainer = new RenderableComponent({
-      name: "elementsContainer",
-      config: Config.playerElementsContainer,
-    });
-    const backgroundElementsContainer = new RenderableComponent({
-      name: "elementsContainer",
-      config: Config.backgroundElementsContainer,
-    });
-    const foregroundElementsContainer = new RenderableComponent({
-      name: "elementsContainer",
-      config: Config.foregroundElementsContainer,
+      config: Config.rocketLauncherComponent,
     });
 
     this.addEntities({
-      player: new Entity({
+      player: new RenderableEntity({
         name: "Player",
-        components: [
-          playerCharacterComponent,
-          playerRocketLauncherComponent,
-          laserComponent,
-          playerElementsContainer,
-        ],
-        config: Config.player,
+        container: new Container(),
       }),
     });
 
     this.addEntities({
-      background: new Entity({
+      background: new RenderableEntity({
         name: "Background",
-        components: [
-          backgroundDisplayObjectComponent,
-          backgroundPhysicsComponent,
-          backgroundElementsContainer,
-        ],
-        config: Config.background,
+        container: new Container(),
       }),
-      foreground: new Entity({
+      foreground: new RenderableEntity({
         name: "Foreground",
-        components: [counterComponent, foregroundElementsContainer],
-        config: Config.foreground,
+        container: new Container(),
       }),
     });
 
@@ -104,6 +80,17 @@ class Game {
       playerFireSystem: new PlayerFireSystem(),
       enemyGeneratorSystem: new EnemyGeneratorSystem(),
     });
+
+    this.entities.player.attachComponents(
+      playerCharacterComponent,
+      playerRocketLauncherComponent,
+      laserComponent
+    );
+    this.entities.foreground.attachComponents(counterComponent);
+    this.entities.background.attachComponents(
+      backgroundStarComponent,
+      backgroundPhysicsComponent
+    );
   }
 
   /**

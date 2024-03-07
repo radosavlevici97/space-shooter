@@ -9,13 +9,13 @@ const config = {
     },
   },
   game: {},
-  rocketLauncher: {
+  rocketLauncherComponent: {
     attachable: false,
   },
   playerComponent: {
     guidePositions: {
-      x: minWidth / 2,
-      y: minHeight / 2,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 1.1,
     },
   },
   enemyComponent: {
@@ -29,11 +29,20 @@ const config = {
     initialLineX: 0,
     initialLineY: -3,
     guidePositions: {
-      x: minWidth / 2,
-      y: minHeight / 2,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 1.1,
     },
   },
-  backgroundPhysics: {},
+  backgroundPhysics: {
+    starAmount: 2000,
+    cameraZ: 0,
+    fov: 20,
+    baseSpeed: 0.025,
+    speed: 0,
+    warpSpeed: 0,
+    starStretch: 5,
+    starBaseSize: 0.05,
+  },
   enemies: {},
 };
 
