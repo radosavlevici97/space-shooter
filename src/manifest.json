@@ -1,0 +1,37 @@
+{
+  "bundles": [
+    {
+      "name": "default",
+      "assets": [
+        {
+          "name": [
+            "images/favicon.png"
+          ],
+          "srcs": [
+            "images/favicon.png"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "images/preload",
+      "assets": [
+        {
+          "name": [
+            "images/preload/preload.json"
+          ],
+          "srcs": [
+            "images/preload/preload@1x.json",
+            "images/preload/preload@0.5x.json"
+          ],
+          "data": {
+            "tags": {
+              "m": true,
+              "tps": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
