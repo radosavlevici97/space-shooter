@@ -7,23 +7,16 @@ export default class BackgroundPhysics extends Component {
   }
 
   init() {
-    const {
-      starAmount,
-      cameraZ,
-      fov,
-      baseSpeed,
-      speed,
-      warpSpeed,
-      starStretch,
-      starBaseSize,
-    } = this.config;
-    this.starAmount = starAmount;
+    const { cameraZ, fov, baseSpeed, speed, warpSpeed } = this.config;
     this.cameraZ = cameraZ;
     this.fov = fov;
     this.baseSpeed = baseSpeed;
     this.speed = speed;
     this.warpSpeed = warpSpeed;
-    this.starStretch = starStretch;
-    this.starBaseSize = starBaseSize;
+  }
+
+  update(delta) {
+    this.speed += (this.warpSpeed - this.speed) / 20;
+    this.cameraZ += delta * 10 * (this.speed + this.baseSpeed);
   }
 }

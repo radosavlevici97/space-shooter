@@ -7,34 +7,24 @@ export default class RenderableEntity extends Entity {
   }
 
   attachComponents(...components) {
-    super.attachComponents(components);
-    console.log(this.container);
-    console.log(components);
-    console.log(
-      ...components.filter(
-        (component) => component.displayObject && component.attachable
-      )
-    );
+    super.attachComponents(...components);
+    const componentsToDisplay = components
+      .filter((component) => component.displayObject && component.attachable)
+      .map((component) => component.displayObject);
+
     this.container &&
-      this.container.addChild(
-        ...components
-          .filter(
-            (component) => component.displayObject && component.attachable
-          )
-          .map((component) => component.displayObject)
-      );
+      componentsToDisplay.length &&
+      this.container.addChild(...componentsToDisplay);
   }
 
   deleteComponents(...components) {
-    super.deleteComponents(components);
+    super.deleteComponents(...components);
+    const componentsToRemoveFromDisplay = components
+      .filter((component) => component.displayObject && component.attachable)
+      .map((component) => component.displayObject);
     this.container &&
-      this.container.removeChild(
-        ...components
-          .filter(
-            (component) => component.displayObject && component.attachable
-          )
-          .map((component) => component.displayObject)
-      );
+      componentsToRemoveFromDisplay.length &&
+      this.container.removeChild(...componentsToRemoveFromDisplay);
   }
 
   deleteAllComponents() {

@@ -34,14 +34,16 @@ const config = {
     },
   },
   backgroundPhysics: {
-    starAmount: 2000,
     cameraZ: 0,
     fov: 20,
     baseSpeed: 0.025,
     speed: 0,
     warpSpeed: 0,
-    starStretch: 5,
-    starBaseSize: 0.05,
+  },
+  backgroundStar: {
+    amount: 2000,
+    baseSize: 0.05,
+    stretch: 5,
   },
   enemies: {},
 };

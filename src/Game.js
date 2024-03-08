@@ -14,6 +14,7 @@ import PlayerFireSystem from "./custom-systems/fire-system/PlayerFireSystem";
 import RocketLauncherComponent from "./custom-components/RocketLauncherComponent";
 import Config from "./Config";
 import EnemyGeneratorSystem from "./custom-systems/EnemiesGeneratorSystem";
+import BackgroundSystem from "./custom-systems/BackgroundSystem";
 
 class Game {
   constructor() {
@@ -29,17 +30,6 @@ class Game {
       name: "characterComponent",
       asset: "shooter",
       config: Config.playerComponent,
-    });
-
-    const backgroundStarComponent = new BackgroundStar({
-      name: "starComponent",
-      displayObjectSource: Sprite,
-      asset: "star",
-    });
-
-    const backgroundPhysicsComponent = new BackgroundPhysics({
-      name: "backgroundPhysicsComponent",
-      config: Config.backgroundPhysics,
     });
 
     const counterComponent = new TextComponent({
@@ -79,6 +69,7 @@ class Game {
       enemyFireSystem: new EnemyFireSystem(),
       playerFireSystem: new PlayerFireSystem(),
       enemyGeneratorSystem: new EnemyGeneratorSystem(),
+      backgroundSysstem: new BackgroundSystem(),
     });
 
     this.entities.player.attachComponents(
@@ -87,10 +78,6 @@ class Game {
       laserComponent
     );
     this.entities.foreground.attachComponents(counterComponent);
-    this.entities.background.attachComponents(
-      backgroundStarComponent,
-      backgroundPhysicsComponent
-    );
   }
 
   /**
@@ -109,9 +96,9 @@ class Game {
 
   startGameLoop(ticker) {
     console.log(this.entities);
-    ticker.add(() => {
+    ticker.add((delta) => {
       this.systems.all.forEach((system) => {
-        system?.update();
+        system?.update(delta);
       });
     });
   }
