@@ -31,7 +31,6 @@ function resize() {
   // Update renderer  and navigation screens dimensions
   app.renderer.resize(width, height);
   game.resize(width, height);
-  console.log(app.canvas);
 }
 
 /** Setup app and initialise assets */

@@ -71,6 +71,8 @@ export default class Manager {
           featureContainer.destroy();
           container.removeChild(featureContainer);
         }
+
+        feature?.delete();
         this._all = this._all.filter((element) => element !== feature);
         delete this[`${feature.name}`];
       }

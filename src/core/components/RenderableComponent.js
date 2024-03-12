@@ -29,6 +29,10 @@ export default class RenderableComponent extends Component {
     };
   }
 
+  set visible(value) {
+    this.displayObject.visible = value;
+  }
+
   init() {}
 
   create({ displayObjectSource, asset }) {

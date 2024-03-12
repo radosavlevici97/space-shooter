@@ -1,5 +1,6 @@
 import RenderableComponent from "../core/components/RenderableComponent";
 import { Graphics } from "pixi.js";
+import gsap from "gsap";
 
 export default class ExplosionComponent extends RenderableComponent {
   init() {
@@ -27,7 +28,7 @@ export default class ExplosionComponent extends RenderableComponent {
       duration: showDuration,
       onUpdate: () => {
         const { position } = target;
-        this._updatePositions(position, { reset: true });
+        this.updatePosition(position, { reset: true });
       },
     });
   }

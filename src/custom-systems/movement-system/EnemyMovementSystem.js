@@ -8,22 +8,23 @@ export default class EnemyMovementSystem extends System {
   updateEntities() {
     const { entities } = game;
     const enemies = entities.getEntities("enemy", "character");
-    console.log(enemies);
     enemies.forEach((enemy) => {
       const character = getComponentsFor(enemy, "character");
       if (!character.isMoving) {
         character.isMoving = true;
-        this._loop(character);
+        this._loop(enemy, character);
       }
     });
   }
 
-  async _loop(character) {
+  async _loop(enemy, character) {
+    if (enemy.isDeleted) return;
+
     await this._moveRight(character);
     await this._moveDown(character);
     await this._moveLeft(character);
     await this._moveDown(character);
-    this._loop(character);
+    this._loop(enemy, character);
   }
 
   async _moveRight(character) {

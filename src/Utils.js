@@ -69,8 +69,9 @@ export function* consecutiveNumbersGenerator(start = 0) {
   }
 }
 
-export function getComponentsFor(entitie, componentsName) {
-  const components = entitie.components.filter((component) =>
+export function getComponentsFor(entity, componentsName) {
+  if (!entity) console.error("Entity undefined");
+  const components = entity.components.filter((component) =>
     component.name.includes(componentsName)
   );
   if (components.length <= 1) return components[0];

@@ -14,7 +14,7 @@ const config = {
     speed: 200, //  px per second
   },
   playerWeaponComponent: {
-    speed: 200, //  px per second
+    speed: 600, //  px per second
   },
   playerComponent: {
     guidePositions: {
@@ -51,8 +51,8 @@ const config = {
   },
   enemies: {},
   explosionComponent: {
-    showDuration: 0.2,
-    hideDuration: 0.3,
+    showDuration: 1,
+    hideDuration: 1,
     anchor: 0.5,
     alpha: 0,
     width: 2,

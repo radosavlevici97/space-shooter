@@ -16,9 +16,7 @@ export default class EnemyFireSystem extends System {
 
   _addEvents(hitContainer) {
     //add click event
-    console.log("events");
     hitContainer.on("click", (e) => {
-      console.log("click");
       this._fire(e);
     });
     hitContainer.on("pointermove", (e) => {
@@ -54,7 +52,7 @@ export default class EnemyFireSystem extends System {
     const direction = Math.atan2(clientY - y, clientX - x) + Math.PI / 2;
     weapon.fire(
       { position, direction, anchor },
-      player.container,
+      app.stage,
       app.renderer.screen
     );
   }

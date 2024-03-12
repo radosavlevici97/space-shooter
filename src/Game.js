@@ -15,6 +15,7 @@ import PlayerMovementSystem from "./custom-systems/movement-system/PlayerMovemen
 import WeaponComponent from "./custom-components/WeaponComponent";
 import EnemyMovementSystem from "./custom-systems/movement-system/EnemyMovementSystem";
 import CounterComponent from "./custom-components/CounterComponent";
+import MissleDetectorSystem from "./custom-systems/MissleDetectorSystem";
 
 class Game {
   constructor() {
@@ -79,6 +80,7 @@ class Game {
       playerMovementSystem: new PlayerMovementSystem(),
       enemyGeneratorSystem: new EnemyGeneratorSystem(),
       backgroundSystem: new BackgroundSystem(),
+      missleDetectorSystem: new MissleDetectorSystem(),
     });
 
     this.entities.player.attachComponents(
@@ -104,7 +106,6 @@ class Game {
   }
 
   startGameLoop(ticker) {
-    console.log(this.entities);
     ticker.add((time) => {
       this.systems.all.forEach((system) => {
         system?.update(time);

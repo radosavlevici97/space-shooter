@@ -13,6 +13,14 @@ export default class EnemyCharacter extends RenderableComponent {
     this.displayObject.y = this.displayObject.height / 2;
   }
 
+  hide() {
+    this.visible = false;
+  }
+
+  show() {
+    this.visible = true;
+  }
+
   set isMoving(value) {
     this._isMoving = true;
   }

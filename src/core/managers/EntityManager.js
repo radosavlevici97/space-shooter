@@ -26,7 +26,7 @@ export default class EntityManager extends Manager {
       componentsNamesList = [componentsNamesList];
 
     const entities = entitiesName
-      ? this.all.filter((entitie) => entitie.name.includes("enemy"))
+      ? this.all.filter((entitie) => entitie.name.includes(entitiesName))
       : this.all;
 
     if (!componentsNamesList) return entities;

@@ -8,6 +8,7 @@ export default class WeaponComponent extends Component {
     super(args);
     this._ammoAsset = ammoAsset;
     this._firedAmmo = [];
+    this.isFiring = false;
   }
 
   get firedAmmo() {
@@ -33,16 +34,16 @@ export default class WeaponComponent extends Component {
       y: "+=" + Math.cos(newDirection) * speed,
       onUpdate: () => {
         if (!testForAABB(rocket, availableArea))
-          this._destroyFiredAmmo(rocket, tl);
+          this.destroyFiredAmmo(rocket, tl);
       },
       ease: "none",
       duration: 1,
     });
   }
 
-  _destroyFiredAmmo(rocket, tl) {
+  destroyFiredAmmo(rocket, tl) {
+    tl ? tl.kill() : gsap.killTweensOf(rocket);
     this._firedAmmo = this._firedAmmo.filter((ammo) => rocket !== ammo);
-    tl.kill();
     rocket.destroy();
     rocket.removeFromParent();
   }

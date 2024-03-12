@@ -16,7 +16,6 @@ export default class PlayerMovementSystem extends System {
   }
 
   addEvents(container) {
-    console.log(container);
     container.on("rightclick", (e) => {
       const { player } = game.entities;
       this.moveToX(player, e.clientX);

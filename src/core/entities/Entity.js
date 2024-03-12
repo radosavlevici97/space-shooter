@@ -3,6 +3,15 @@ export default class Entity {
     this.id = id;
     this.name = name;
     this.components = components;
+    this._isDeleted = false;
+  }
+
+  get isDeleted() {
+    return this._isDeleted;
+  }
+
+  delete() {
+    this._isDeleted = true;
   }
 
   attachComponents(...components) {
