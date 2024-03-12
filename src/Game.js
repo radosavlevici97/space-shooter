@@ -1,7 +1,6 @@
 import { Container, Sprite, Rectangle } from "pixi.js";
 import EntityManager from "./core/managers/EntityManager";
 import Manager from "./core/managers/Manager";
-import TextComponent from "./core/components/TextComponent";
 import { Text } from "pixi.js";
 import PlayerCharacter from "./custom-components/characters/PlayerCharacter";
 import RenderableEntity from "./core/entities/RenderableEntity";
@@ -15,7 +14,7 @@ import PlayerMovementSystem from "./custom-systems/movement-system/PlayerMovemen
 import WeaponComponent from "./custom-components/WeaponComponent";
 import EnemyMovementSystem from "./custom-systems/movement-system/EnemyMovementSystem";
 import CounterComponent from "./custom-components/CounterComponent";
-import MissleDetectorSystem from "./custom-systems/MissleDetectorSystem";
+import CollisionSystem from "./custom-systems/CollisionSystem";
 
 class Game {
   constructor() {
@@ -80,7 +79,7 @@ class Game {
       playerMovementSystem: new PlayerMovementSystem(),
       enemyGeneratorSystem: new EnemyGeneratorSystem(),
       backgroundSystem: new BackgroundSystem(),
-      missleDetectorSystem: new MissleDetectorSystem(),
+      missleDetectorSystem: new CollisionSystem(),
     });
 
     this.entities.player.attachComponents(

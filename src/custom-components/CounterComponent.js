@@ -1,4 +1,3 @@
-import { TextStyle } from "pixi.js";
 import TextComponent from "../core/components/TextComponent";
 
 export default class CounterComponent extends TextComponent {

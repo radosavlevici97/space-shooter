@@ -1,5 +1,4 @@
 import RenderableComponent from "../core/components/RenderableComponent";
-import { Graphics } from "pixi.js";
 import gsap from "gsap";
 
 export default class ExplosionComponent extends RenderableComponent {
@@ -22,19 +21,32 @@ export default class ExplosionComponent extends RenderableComponent {
       size: { width, height },
     } = target;
     await gsap.to(this.displayObject, {
-      height: height / 3,
-      width,
+      height: height * 2,
+      width: width * 2,
       alpha: 1,
       duration: showDuration,
       onUpdate: () => {
-        const { position } = target;
-        this.updatePosition(position, { reset: true });
+        const {
+          position: { x, y },
+        } = target;
+        // console.log(x, y);
+        this.updatePosition({ x, y }, { reset: true });
       },
     });
   }
 
-  async hide() {
+  async hide(target) {
     const { hideDuration } = this.config;
-    await gsap.to(this.displayObject, { alpha: 0, duration: hideDuration });
+    await gsap.to(this.displayObject, {
+      alpha: 0.4,
+      duration: hideDuration,
+      onUpdate: () => {
+        const {
+          position: { x, y },
+        } = target;
+        // console.log(x, y);
+        this.updatePosition({ x, y }, { reset: true });
+      },
+    });
   }
 }

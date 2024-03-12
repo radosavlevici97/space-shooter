@@ -15,25 +15,25 @@ export default class PlayerMovementSystem extends System {
     this.addEvents(hitContainer);
   }
 
-  addEvents(container) {
+  _addEvents(container) {
     container.on("rightclick", (e) => {
       const { player } = game.entities;
-      this.moveToX(player, e.clientX);
+      this._moveToX(player, e.clientX);
     });
   }
 
   update() {
     // Keyboard
     const { player } = game.entities;
-    if (Keyboard.isKeyDown("ArrowLeft", "KeyA")) this.moveLeft(player);
-    if (Keyboard.isKeyDown("ArrowRight", "KeyD")) this.moveRight(player);
+    if (Keyboard.isKeyDown("ArrowLeft", "KeyA")) this._moveLeft(player);
+    if (Keyboard.isKeyDown("ArrowRight", "KeyD")) this._moveRight(player);
 
-    if (Keyboard.isKeyDown("ArrowUp", "KeyW")) this.moveUp(player);
-    if (Keyboard.isKeyDown("ArrowDown", "KeyS")) this.moveDown(player);
+    if (Keyboard.isKeyDown("ArrowUp", "KeyW")) this._moveUp(player);
+    if (Keyboard.isKeyDown("ArrowDown", "KeyS")) this._moveDown(player);
     Keyboard.update();
   }
 
-  moveRight(entity) {
+  _moveRight(entity) {
     const { width: screenWidth } = app.renderer.screen;
     const character = getComponentsFor(entity, "character");
     const { width: characterWidth } = character.size;
@@ -43,7 +43,7 @@ export default class PlayerMovementSystem extends System {
     }
   }
 
-  moveLeft(entity) {
+  _moveLeft(entity) {
     const character = getComponentsFor(entity, "character");
     const { width: characterWidth } = character.size;
     const { x: characterX } = character.position;
@@ -52,7 +52,7 @@ export default class PlayerMovementSystem extends System {
     }
   }
 
-  moveUp(entity) {
+  _moveUp(entity) {
     const character = getComponentsFor(entity, "character");
     const { height: screenHeight } = app.renderer.screen;
     const { y: characterY } = character.position;
@@ -61,7 +61,7 @@ export default class PlayerMovementSystem extends System {
       this._updateComponents(entity, { y: -10 });
     }
   }
-  moveDown(entity) {
+  _moveDown(entity) {
     const character = getComponentsFor(entity, "character");
     const { height: screenHeight } = app.renderer.screen;
     const { y: characterY } = character.position;
@@ -71,7 +71,7 @@ export default class PlayerMovementSystem extends System {
     }
   }
 
-  moveToX(entity, x) {
+  _moveToX(entity, x) {
     this._updateComponents(entity, { x }, { reset: true });
   }
 

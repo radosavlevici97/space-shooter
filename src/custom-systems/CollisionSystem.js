@@ -4,29 +4,44 @@ import { game } from "../Game";
 import ExplosionComponent from "../custom-components/ExplosionComponent";
 import config from "../Config";
 import { Sprite } from "pixi.js";
-import gsap from "gsap";
 
-export default class MissleDetectorSystem extends System {
+export default class CollisionSystem extends System {
+  constructor(args) {
+    super(args);
+    this._deadPlayersFiredAmmo = [];
+  }
   update(time) {
     this._playerColission();
     this._enemyColission();
+    this._clean();
+  }
+
+  _clean() {
+    this._deadPlayersFiredAmmo = this._deadPlayersFiredAmmo.filter(
+      (ammo) => !ammo.destroyed
+    );
   }
 
   _playerColission() {
     const { entities } = game;
-    const { foreground } = entities;
-    const deadEnemiesCounter = getComponentsFor(foreground, "counter");
     const enemiesWithWeapons = entities.getEntities("enemy", "weapon");
+    const { player } = entities;
+    const playerCharacter = getComponentsFor(player, "character");
+    const { displayObject: playerDisplayObject } = playerCharacter;
     enemiesWithWeapons.forEach((enemy) => {
-      const { player } = entities;
-      const playerCharacter = getComponentsFor(player, "character");
-      const { displayObject: playerDisplayObject } = playerCharacter;
       const enemyWeapon = getComponentsFor(enemy, "weapon");
-      enemyWeapon.firedAmmo.forEach((ammo) => {
-        if (testForAABB(ammo, playerDisplayObject)) {
+      const { firedAmmo: enemyFiredAmmo } = enemyWeapon;
+      enemyFiredAmmo.forEach((ammo) => {
+        if (!ammo.destroyed && testForAABB(ammo, playerDisplayObject)) {
           window.alert("game finished! please refresh the page");
         }
       });
+    });
+
+    this._deadPlayersFiredAmmo.forEach((ammo) => {
+      if (!ammo.destroyed && testForAABB(ammo, playerDisplayObject)) {
+        window.alert("game finished! please refresh the page");
+      }
     });
   }
 
@@ -55,17 +70,21 @@ export default class MissleDetectorSystem extends System {
   async _generateExplosion(enemy, playerWeapon, ammo) {
     const { entities } = game;
     const character = getComponentsFor(enemy, "character");
+    const enemyWeapon = getComponentsFor(enemy, "weapon");
     const explosion = new ExplosionComponent({
       displayObjectSource: Sprite,
       name: "explosion",
       asset: "explosion",
       config: config.explosionComponent,
     });
+
     enemy.attachComponents(explosion);
-    //await explosion.show(character);
-    //character.hide();
     playerWeapon.destroyFiredAmmo(ammo);
-    //await explosion.hide();
+    enemy.delete();
+    const { firedAmmo } = enemyWeapon;
+    this._deadPlayersFiredAmmo = [...this._deadPlayersFiredAmmo, ...firedAmmo];
+    await explosion.show(character);
+    await explosion.hide(character);
     entities.remove(enemy);
   }
 }

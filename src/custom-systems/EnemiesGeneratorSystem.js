@@ -22,7 +22,7 @@ export default class EnemyGeneratorSystem extends System {
   }
 
   async _generateEnemies() {
-    await delay(randomFromInterval(10, 50));
+    await delay(randomFromInterval(3, 15));
     const id = this._idGenerators.next().value;
     const enemyCharacterComponent = new EnemyCharacter({
       displayObjectSource: Sprite,

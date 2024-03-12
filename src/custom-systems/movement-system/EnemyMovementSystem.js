@@ -30,8 +30,7 @@ export default class EnemyMovementSystem extends System {
   async _moveRight(character) {
     const { width: characterWidth } = character.size;
     const { width: screenWidth } = app.renderer.screen;
-    const { displayObject } = character;
-    await gsap.to(displayObject, {
+    await gsap.to(character.position, {
       x: screenWidth - characterWidth / 2,
       duration: 6,
     });
@@ -40,8 +39,7 @@ export default class EnemyMovementSystem extends System {
   async _moveDown(character) {
     const { height: characterHeight } = character.size;
     const { y: characterY } = character.position;
-    const { displayObject } = character;
-    await gsap.to(displayObject, {
+    await gsap.to(character.position, {
       y: characterY + characterHeight,
       duration: 1,
     });
@@ -49,7 +47,7 @@ export default class EnemyMovementSystem extends System {
 
   async _moveLeft(character) {
     const { width: characterWidth } = character.size;
-    const { displayObject } = character;
-    await gsap.to(displayObject, { x: characterWidth / 2, duration: 6 });
+
+    await gsap.to(character.position, { x: characterWidth / 2, duration: 6 });
   }
 }

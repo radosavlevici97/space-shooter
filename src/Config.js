@@ -51,8 +51,8 @@ const config = {
   },
   enemies: {},
   explosionComponent: {
-    showDuration: 1,
-    hideDuration: 1,
+    showDuration: 0.7,
+    hideDuration: 0.8,
     anchor: 0.5,
     alpha: 0,
     width: 2,
@@ -61,7 +61,7 @@ const config = {
   counterComponent: {
     style: {
       fontFamily: "Arial",
-      fontSize: 36,
+      fontSize: 72,
       fontStyle: "italic",
       fontWeight: "bold",
       fill: new FillGradient(0, 0, 0, 36 * 1.7 * 7),
@@ -76,8 +76,8 @@ const config = {
       wordWrapWidth: 440,
     },
     guidePositions: {
-      x: window.innerWidth - 30,
-      y: window.innerHeight - 30,
+      x: window.innerWidth - 100,
+      y: window.innerHeight - 100,
     },
   },
 };

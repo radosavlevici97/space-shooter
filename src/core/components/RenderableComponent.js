@@ -1,12 +1,12 @@
 import Component from "./Component";
-import { Container, Sprite } from "pixi.js";
+import { Container } from "pixi.js";
 
 export default class RenderableComponent extends Component {
   constructor({ displayObjectSource = Container, asset, ...args }) {
     super(args);
     this._attachable = this.config?.attachable || true;
     this._guidePositions = this.config?.guidePositions;
-    this.displayObject = this.create({ displayObjectSource, asset });
+    this.displayObject = this._create({ displayObjectSource, asset });
     this.init();
   }
 
@@ -29,13 +29,17 @@ export default class RenderableComponent extends Component {
     };
   }
 
+  set position(coords) {
+    this.displayObject.position.set(coords);
+  }
+
   set visible(value) {
     this.displayObject.visible = value;
   }
 
   init() {}
 
-  create({ displayObjectSource, asset }) {
+  _create({ displayObjectSource, asset }) {
     if (!asset) {
       return new displayObjectSource();
     }

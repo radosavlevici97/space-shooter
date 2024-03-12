@@ -3,7 +3,7 @@ import RenderableComponent from "../../core/components/RenderableComponent";
 export default class EnemyCharacter extends RenderableComponent {
   constructor(args) {
     super(args);
-    this._isMoving = false;
+    this.isMoving = false;
   }
 
   init() {
@@ -19,13 +19,5 @@ export default class EnemyCharacter extends RenderableComponent {
 
   show() {
     this.visible = true;
-  }
-
-  set isMoving(value) {
-    this._isMoving = true;
-  }
-
-  get isMoving() {
-    return this._isMoving;
   }
 }

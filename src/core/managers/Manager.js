@@ -3,7 +3,7 @@ import { Container } from "pixi.js";
 export default class Manager {
   /**
    * @description - Helper class to help managing all the features instantiated in Scenario.
-   * @param {PIXI.Container} container
+   * @param {Container} container
    * @param {object} settings - Game data settings from the server.
    */
   constructor(container, settings) {
@@ -19,8 +19,8 @@ export default class Manager {
   /**
    * @description - adds feature/s. Every added feature is available as a getter on the
    * featureManager instance.
-   * @param {PIXI.Container[]} featuresList - Array of features to be added.
-   * @param {PIXI.Container} container - The container the feature will be added to.
+   * @param {Container[]} featuresList - Array of features to be added.
+   * @param {Container} container - The container the feature will be added to.
    * @public
    */
   add(featuresList, { container = this.container } = {}) {
@@ -53,7 +53,7 @@ export default class Manager {
   /**
    * @description Removes features
    * @param {string} list List of features
-   * @param {PIXI.Container} container The parent container
+   * @param {Container} container The parent container
    * @public
    */
   remove(list, container = this.container) {
