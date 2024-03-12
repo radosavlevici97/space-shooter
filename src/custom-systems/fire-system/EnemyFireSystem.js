@@ -1,71 +1,38 @@
-import {Container, Graphics, Sprite} from "pixi.js";
-import gsap from 'gsap';
-import AbstractFireSystem from "./AbstractFireSystem";
+import { Container, Graphics, Sprite } from "pixi.js";
+import gsap from "gsap";
+import {
+  delay,
+  getComponentsFor,
+  randomFromInterval,
+  testForAABB,
+} from "../../Utils";
+import { app } from "../../main";
+import System from "../../core/systems/System";
 
+export default class EnemyFireSystem extends System {
+  async start() {
+    const enemiesWithWeapons = this._getEnemiesWithWeapons();
+    enemiesWithWeapons.forEach(this._fire, this);
+  }
 
+  async _fire(enemy) {
+    const character = getComponentsFor(enemy, "character");
+    const { position } = character;
+    const weapon = getComponentsFor(enemy, "weapon");
+    const direction = Math.PI;
+    const anchor = 0.5;
+    await delay(randomFromInterval(1, 3));
+    weapon.fire(
+      { position, direction, anchor },
+      enemy.container,
+      app.renderer.screen
+    );
+    this._fire(enemy);
+  }
 
-export default class EnemyFireSystem extends AbstractFireSystem{
-    fire(){
-
-    }
+  _getEnemiesWithWeapons() {
+    const { entities } = game;
+    const enemies = entities.getEntities("enemy", "weapon");
+    return enemies;
+  }
 }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// export default class EnemyireSystem extends Container{
-//     protected enemie:Enemie;
-//     protected _missle:Sprite;
-//
-//     constructor(enemie:Enemie) {
-//         super();
-//         this.enemie=enemie;
-//         this.initFireSystem();
-//     }
-//
-//
-//     protected initFireSystem(): Promise<void> {
-//         return new Promise<void>((resolve, reject) => {
-//             gsap.delayedCall(Util.randomFromInterval(3,6),()=>{
-//                 this.animateMissle();
-//                 resolve();
-//             })
-//         }).then(()=>{
-//             this.initFireSystem();
-//         });
-//     }
-//     protected animateMissle():void {
-//         this._missle = Sprite.from('./assets/images/rocket.png');
-//         this._missle.anchor.set(0.5);
-//         this._missle.rotation = Math.PI;
-//         this._missle.x = this.enemie.mainCharacter.x;
-//         this._missle.y = this.enemie.mainCharacter.y;
-//         MissleDetector.enemiesMissles.push(this._missle);
-//         this.addChild(this._missle);
-//         gsap.to(this._missle, {
-//             y:Names.Misc.GAME_HEIGHT*2,
-//             duration:10,
-//             onComplete:()=>{
-//                 this.missleGarbage.bind(this, [this._missle]);
-//             }
-//         });
-//     }
-//
-//
-//     protected missleGarbage(missle:Sprite[]):void{
-//         this.removeChild(missle[0]);
-//     }
-//
-//     public get missle():Sprite{
-//         return this._missle;
-//     }
-// }

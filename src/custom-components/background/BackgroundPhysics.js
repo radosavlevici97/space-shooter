@@ -15,7 +15,8 @@ export default class BackgroundPhysics extends Component {
     this.warpSpeed = warpSpeed;
   }
 
-  update(delta) {
+  update(time) {
+    const delta = time.deltaTime;
     this.speed += (this.warpSpeed - this.speed) / 20;
     this.cameraZ += delta * 10 * (this.speed + this.baseSpeed);
   }

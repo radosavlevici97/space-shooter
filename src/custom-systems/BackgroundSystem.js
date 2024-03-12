@@ -5,6 +5,7 @@ import { Sprite } from "pixi.js";
 import BackgroundStar from "../custom-components/background/BackgroundStar";
 import BackgroundPhysics from "../custom-components/background/BackgroundPhysics";
 import Config from "../Config";
+import { getComponentsFor } from "../Utils";
 
 export default class BackgroundSystem extends System {
   constructor() {
@@ -16,7 +17,7 @@ export default class BackgroundSystem extends System {
   init() {
     const { background } = game.entities;
     const backgroundPhysicsComponent = new BackgroundPhysics({
-      name: "physicsComponent",
+      name: "physics",
       config: Config.backgroundPhysics,
     });
 
@@ -26,7 +27,7 @@ export default class BackgroundSystem extends System {
 
     this._stars = Array.from({ length: amount }, (_, i) => {
       const star = new BackgroundStar({
-        name: "starComponent",
+        name: "star",
         displayObjectSource: Sprite,
         asset: "star",
         config: Config.backgroundStar,
@@ -38,14 +39,12 @@ export default class BackgroundSystem extends System {
     });
   }
 
-  update(delta) {
+  update(time) {
     const { background } = game.entities;
 
-    const backgroundPhysicsComponent = background.components.find(
-      (component) => component.name === "physicsComponent"
-    );
+    const backgroundPhysicsComponent = getComponentsFor(background, "physics");
 
-    backgroundPhysicsComponent.update(delta);
+    backgroundPhysicsComponent.update(time);
     const { cameraZ, fov, speed } = backgroundPhysicsComponent;
     const { width, height } = app.renderer.screen;
     this._stars.forEach((star) => {

@@ -4,10 +4,7 @@ import Config from "./Config";
 import { game } from "./Game";
 
 /** The PixiJS app Application instance, shared across the project */
-export const app = new Application({
-  resolution: Math.max(window.devicePixelRatio, 2),
-  backgroundColor: 0x000000,
-});
+export const app = new Application();
 
 globalThis.__PIXI_APP__ = app;
 
@@ -27,19 +24,26 @@ function resize() {
   const height = windowHeight * scale;
 
   // Update canvas style dimensions and scroll window up to avoid issues on mobile resize
-  app.renderer.view.style.width = `${windowWidth}px`;
-  app.renderer.view.style.height = `${windowHeight}px`;
+  app.renderer.canvas.style.width = `${windowWidth}px`;
+  app.renderer.canvas.style.height = `${windowHeight}px`;
   window.scrollTo(0, 0);
 
   // Update renderer  and navigation screens dimensions
   app.renderer.resize(width, height);
-  console.log(app.view);
+  game.resize(width, height);
+  console.log(app.canvas);
 }
 
 /** Setup app and initialise assets */
 async function init() {
+  // Initialize the app
+  await app.init({
+    resolution: Math.max(window.devicePixelRatio, 2),
+    backgroundColor: 0x000000,
+  });
+
   // Add pixi canvas element (app.view) to the document's body
-  document.body.appendChild(app.view);
+  document.body.appendChild(app.canvas);
 
   // Whenever the window resizes, call the 'resize' function
   window.addEventListener("resize", resize);

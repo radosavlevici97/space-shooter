@@ -39,15 +39,27 @@ export default class RenderableComponent extends Component {
     return displayObjectSource.from(asset);
   }
 
+  updatePosition(position, options = {}) {
+    const { reset = false } = options;
+    Object.entries(position).forEach(([key, value]) => {
+      reset
+        ? (this.displayObject[`${key}`] = value)
+        : (this.displayObject[`${key}`] += value);
+    });
+  }
+
   addChild(child) {
-    this.displayObject.addChild(child);
+    this.displayObject?.addChild(child) ||
+      console.error("Sprites cannot add children anymore");
   }
 
   removeChild(child) {
-    this.displayObject.removeChild(child);
+    this.displayObject?.removeChild(child) ||
+      console.error("Sprites cannot add children anymore");
   }
 
   removeChildren() {
-    this.displayObject.removeChildren();
+    this.displayObject?.removeChildren() ||
+      console.error("Sprites cannot add children anymore");
   }
 }

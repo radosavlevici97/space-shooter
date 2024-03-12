@@ -11,7 +11,6 @@ export default class RenderableEntity extends Entity {
     const componentsToDisplay = components
       .filter((component) => component.displayObject && component.attachable)
       .map((component) => component.displayObject);
-
     this.container &&
       componentsToDisplay.length &&
       this.container.addChild(...componentsToDisplay);

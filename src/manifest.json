@@ -4,10 +4,10 @@
       "name": "default",
       "assets": [
         {
-          "name": [
+          "alias": [
             "images/favicon.png"
           ],
-          "srcs": [
+          "src": [
             "images/favicon.png"
           ]
         }
@@ -17,10 +17,10 @@
       "name": "images/preload",
       "assets": [
         {
-          "name": [
+          "alias": [
             "images/preload/preload.json"
           ],
-          "srcs": [
+          "src": [
             "images/preload/preload@1x.json",
             "images/preload/preload@0.5x.json"
           ],
