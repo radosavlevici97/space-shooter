@@ -6,10 +6,7 @@ This project utilises multiple pixi based libraries including;
 
 - [PixiJS](https://github.com/pixijs/pixijs) a rendering library built for the web.
 - [AssetPack](https://github.com/pixijs/assetpack) that optimises assets for the web!
-
-# Demo
-
-- https://main.d1fe7hiiegfan5.amplifyapp.com/
+- [Demo](https://main.d1fe7hiiegfan5.amplifyapp.com/)
 
 # Features
 
