@@ -28,20 +28,23 @@ export default class CollisionSystem extends System {
     const { player } = entities;
     const playerCharacter = getComponentsFor(player, "character");
     const { displayObject: playerDisplayObject } = playerCharacter;
+
     enemiesWithWeapons.forEach((enemy) => {
       const enemyWeapon = getComponentsFor(enemy, "weapon");
       const { firedAmmo: enemyFiredAmmo } = enemyWeapon;
+
       enemyFiredAmmo.forEach((ammo) => {
-        if (!ammo.destroyed && testForAABB(ammo, playerDisplayObject)) {
-          window.alert("game finished! please refresh the page");
-        }
+        if (!(!ammo.destroyed && testForAABB(ammo, playerDisplayObject)))
+          return;
+
+        window.alert("game finished! please refresh the page");
       });
     });
 
     this._deadPlayersFiredAmmo.forEach((ammo) => {
-      if (!ammo.destroyed && testForAABB(ammo, playerDisplayObject)) {
-        window.alert("game finished! please refresh the page");
-      }
+      if (!(!ammo.destroyed && testForAABB(ammo, playerDisplayObject))) return;
+
+      window.alert("game finished! please refresh the page");
     });
   }
 
@@ -52,6 +55,7 @@ export default class CollisionSystem extends System {
     const deadEnemiesCounter = getComponentsFor(foreground, "counter");
     const { player } = entities;
     const playerWeapon = getComponentsFor(player, "weapon");
+
     playerWeapon.firedAmmo.forEach((ammo) => {
       enemies.forEach((enemy) => {
         if (enemy.isDeleted || ammo.destroyed) return;
@@ -59,10 +63,10 @@ export default class CollisionSystem extends System {
         const enemyCharacter = getComponentsFor(enemy, "character");
         const { displayObject: enemyDisplayObject } = enemyCharacter;
 
-        if (testForAABB(ammo, enemyDisplayObject)) {
-          this._generateExplosion(enemy, playerWeapon, ammo);
-          deadEnemiesCounter.increase();
-        }
+        if (!testForAABB(ammo, enemyDisplayObject)) return;
+
+        this._generateExplosion(enemy, playerWeapon, ammo);
+        deadEnemiesCounter.increase();
       });
     });
   }
@@ -71,6 +75,7 @@ export default class CollisionSystem extends System {
     const { entities } = game;
     const character = getComponentsFor(enemy, "character");
     const enemyWeapon = getComponentsFor(enemy, "weapon");
+
     const explosion = new ExplosionComponent({
       displayObjectSource: Sprite,
       name: "explosion",
@@ -81,10 +86,13 @@ export default class CollisionSystem extends System {
     enemy.attachComponents(explosion);
     playerWeapon.destroyFiredAmmo(ammo);
     enemy.delete();
+
     const { firedAmmo } = enemyWeapon;
     this._deadPlayersFiredAmmo = [...this._deadPlayersFiredAmmo, ...firedAmmo];
+
     await explosion.show(character);
     await explosion.hide(character);
+
     entities.remove(enemy);
   }
 }

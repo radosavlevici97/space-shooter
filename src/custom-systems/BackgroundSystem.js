@@ -22,6 +22,7 @@ export default class BackgroundSystem extends System {
     });
 
     background.attachComponents(backgroundPhysicsComponent);
+
     const { amount } = Config.backgroundStar;
     const { cameraZ } = backgroundPhysicsComponent;
 
@@ -45,8 +46,10 @@ export default class BackgroundSystem extends System {
     const backgroundPhysicsComponent = getComponentsFor(background, "physics");
 
     backgroundPhysicsComponent.update(time);
+
     const { cameraZ, fov, speed } = backgroundPhysicsComponent;
     const { width, height } = app.renderer.screen;
+
     this._stars.forEach((star) => {
       if (star.z < cameraZ) star.randomize(cameraZ, false);
       const z = star.z - cameraZ;

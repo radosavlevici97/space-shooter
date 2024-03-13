@@ -9,6 +9,7 @@ export default class ExplosionComponent extends RenderableComponent {
       alpha,
       anchor,
     } = this.config;
+
     this.displayObject.width = initialWidth;
     this.displayObject.height = initialHeight;
     this.displayObject.anchor.set(anchor);
@@ -20,6 +21,7 @@ export default class ExplosionComponent extends RenderableComponent {
     const {
       size: { width, height },
     } = target;
+
     await gsap.to(this.displayObject, {
       height: height * 2,
       width: width * 2,
@@ -29,7 +31,7 @@ export default class ExplosionComponent extends RenderableComponent {
         const {
           position: { x, y },
         } = target;
-        // console.log(x, y);
+
         this.updatePosition({ x, y }, { reset: true });
       },
     });
@@ -37,6 +39,7 @@ export default class ExplosionComponent extends RenderableComponent {
 
   async hide(target) {
     const { hideDuration } = this.config;
+
     await gsap.to(this.displayObject, {
       alpha: 0.4,
       duration: hideDuration,
@@ -44,7 +47,7 @@ export default class ExplosionComponent extends RenderableComponent {
         const {
           position: { x, y },
         } = target;
-        // console.log(x, y);
+
         this.updatePosition({ x, y }, { reset: true });
       },
     });

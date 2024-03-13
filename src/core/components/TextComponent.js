@@ -9,6 +9,7 @@ export default class TextComponent extends RenderableComponent {
   init() {
     const { style: configStyle } = this.config;
     const style = new TextStyle(configStyle);
+
     this.displayObject.style = style;
     this.updatePosition(this.guidePositions);
   }

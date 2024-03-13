@@ -24,6 +24,7 @@ export default class EnemyGeneratorSystem extends System {
   async _generateEnemies() {
     await delay(randomFromInterval(3, 15));
     const id = this._idGenerators.next().value;
+
     const enemyCharacterComponent = new EnemyCharacter({
       displayObjectSource: Sprite,
       name: "character",
@@ -40,13 +41,17 @@ export default class EnemyGeneratorSystem extends System {
       name: `enemy${id}}`,
       container: new Container(),
     });
+
     entities[`enemy${id}`] = entity;
     game.addEntities(entities);
     entity.attachComponents(enemyCharacterComponent, enemyWeaponComponent);
+
     const movementSystem = game.systems.enemyMovementSystem;
     const fireSystem = game.systems.enemyFireSystem;
+
     movementSystem.updateEntities();
     fireSystem.updateEntities();
+
     this._generateEnemies();
   }
 
@@ -54,13 +59,17 @@ export default class EnemyGeneratorSystem extends System {
     const { entities } = game;
     const enemies = entities.getEntities("enemy");
     const { screen } = app.renderer;
+
     enemies.forEach((enemy) => {
       const character = getComponentsFor(enemy, "character");
+
       if (!character) return;
+
       const { displayObject: characterDisplay } = character;
-      if (!testForAABB(characterDisplay, screen)) {
-        game.entities.remove(enemy);
-      }
+
+      if (testForAABB(characterDisplay, screen)) return;
+
+      game.entities.remove(enemy);
     });
   }
 }

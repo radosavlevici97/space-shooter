@@ -12,7 +12,7 @@ export default class PlayerMovementSystem extends System {
 
   init() {
     const { hitContainer } = game;
-    this.addEvents(hitContainer);
+    this._addEvents(hitContainer);
   }
 
   _addEvents(container) {
@@ -30,6 +30,7 @@ export default class PlayerMovementSystem extends System {
 
     if (Keyboard.isKeyDown("ArrowUp", "KeyW")) this._moveUp(player);
     if (Keyboard.isKeyDown("ArrowDown", "KeyS")) this._moveDown(player);
+
     Keyboard.update();
   }
 
@@ -38,18 +39,20 @@ export default class PlayerMovementSystem extends System {
     const character = getComponentsFor(entity, "character");
     const { width: characterWidth } = character.size;
     const { x: characterX } = character.position;
-    if (characterX < screenWidth - characterWidth / 2) {
-      this._updateComponents(entity, { x: 10 });
-    }
+
+    if (!(characterX < screenWidth - characterWidth / 2)) return;
+
+    this._updateComponents(entity, { x: 10 });
   }
 
   _moveLeft(entity) {
     const character = getComponentsFor(entity, "character");
     const { width: characterWidth } = character.size;
     const { x: characterX } = character.position;
-    if (characterX > characterWidth / 2) {
-      this._updateComponents(entity, { x: -10 });
-    }
+
+    if (!(characterX > characterWidth / 2)) return;
+
+    this._updateComponents(entity, { x: -10 });
   }
 
   _moveUp(entity) {
@@ -57,18 +60,19 @@ export default class PlayerMovementSystem extends System {
     const { height: screenHeight } = app.renderer.screen;
     const { y: characterY } = character.position;
 
-    if (characterY > screenHeight / 1.5) {
-      this._updateComponents(entity, { y: -10 });
-    }
+    if (!(characterY > screenHeight / 1.5)) return;
+
+    this._updateComponents(entity, { y: -10 });
   }
   _moveDown(entity) {
     const character = getComponentsFor(entity, "character");
     const { height: screenHeight } = app.renderer.screen;
     const { y: characterY } = character.position;
     const { height: characterHeight } = character.size;
-    if (characterY < screenHeight - characterHeight / 2) {
-      this._updateComponents(entity, { y: 10 });
-    }
+
+    if (!(characterY < screenHeight - characterHeight / 2)) return;
+
+    this._updateComponents(entity, { y: 10 });
   }
 
   _moveToX(entity, x) {

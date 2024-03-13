@@ -15,43 +15,50 @@ export default class EnemyFireSystem extends System {
   }
 
   _addEvents(hitContainer) {
-    //add click event
     hitContainer.on("click", (e) => {
       this._fire(e);
     });
+
     hitContainer.on("pointermove", (e) => {
       this._pointToTarget(e);
     });
   }
 
   _pointToTarget(e) {
+    const { clientX, clientY } = e;
+
     const {
       entities: { player },
     } = game;
-    const { clientX, clientY } = e;
     const character = getComponentsFor(player, "character");
     const {
       position: { x, y },
     } = character;
     const laser = getComponentsFor(player, "laser");
+
     const rotation = Math.atan2(clientY - y, clientX - x) + Math.PI / 2;
     const newAngle = (rotation * 180) / Math.PI;
+
     laser.rotate(newAngle);
   }
 
   _fire(e) {
+    const { clientX, clientY } = e;
+
     const {
       entities: { player },
     } = game;
-    const { clientX, clientY } = e;
     const weapon = getComponentsFor(player, "weapon");
     const character = getComponentsFor(player, "character");
+
     const anchor = 0.5;
     const { position } = character;
     const { x, y } = position;
-    const direction = Math.atan2(clientY - y, clientX - x) + Math.PI / 2;
+    const rotation = Math.atan2(clientY - y, clientX - x) + Math.PI / 2;
+    const direction = -rotation - Math.PI;
+
     weapon.fire(
-      { position, direction, anchor },
+      { position, rotation, direction, anchor },
       app.stage,
       app.renderer.screen
     );
