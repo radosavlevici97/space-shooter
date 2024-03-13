@@ -47,6 +47,12 @@ export default class RenderableComponent extends Component {
     return displayObjectSource.from(asset);
   }
 
+  /**
+   * @description Update the display object position.
+   * @param {object} position
+   * @param {object} options
+   * @public
+   */
   updatePosition(position, options = {}) {
     const { reset = false } = options;
     Object.entries(position).forEach(([key, value]) => {

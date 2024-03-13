@@ -3,6 +3,7 @@ import { app } from "../../main";
 import Keyboard from "pixi.js-keyboard";
 import { getComponentsFor } from "../../Utils";
 import System from "../../core/systems/System";
+import config from "../../Config";
 
 export default class PlayerMovementSystem extends System {
   constructor(args) {
@@ -10,11 +11,19 @@ export default class PlayerMovementSystem extends System {
     this.init();
   }
 
+  /**
+   * @description Init the system.
+   * @public
+   */
   init() {
     const { hitContainer } = game;
     this._addEvents(hitContainer);
   }
 
+  /**
+   * @description Attach the listeners.
+   * @private
+   */
   _addEvents(container) {
     container.on("rightclick", (e) => {
       const { player } = game.entities;
@@ -22,8 +31,11 @@ export default class PlayerMovementSystem extends System {
     });
   }
 
+  /**
+   * @description Update the keyboard and attach the callbacks
+   * @public
+   */
   update() {
-    // Keyboard
     const { player } = game.entities;
 
     if (Keyboard.isKeyDown("ArrowLeft", "KeyA")) this._moveLeft(player);
@@ -35,51 +47,89 @@ export default class PlayerMovementSystem extends System {
     Keyboard.update();
   }
 
+  /**
+   * @description Moves the player to the right
+   * @param {object} entity
+   * @private
+   */
   _moveRight(entity) {
     const { width: screenWidth } = app.renderer.screen;
     const character = getComponentsFor(entity, "character");
     const { width: characterWidth } = character.size;
     const { x: characterX } = character.position;
+    const { playerMovementSpeed } = config.game;
 
     if (!(characterX < screenWidth - characterWidth / 2)) return;
 
-    this._updateComponents(entity, { x: 10 });
+    this._updateComponents(entity, { x: playerMovementSpeed });
   }
 
+  /**
+   * @description Moves the player to the left
+   * @param {object} entity
+   * @private
+   */
   _moveLeft(entity) {
     const character = getComponentsFor(entity, "character");
     const { width: characterWidth } = character.size;
     const { x: characterX } = character.position;
+    const { playerMovementSpeed } = config.game;
 
     if (!(characterX > characterWidth / 2)) return;
 
-    this._updateComponents(entity, { x: -10 });
+    this._updateComponents(entity, { x: -playerMovementSpeed });
   }
 
+  /**
+   * @description Moves the player up
+   * @param {object} entity
+   * @private
+   */
   _moveUp(entity) {
     const character = getComponentsFor(entity, "character");
     const { height: screenHeight } = app.renderer.screen;
     const { y: characterY } = character.position;
+    const { playerMovementSpeed } = config.game;
 
     if (!(characterY > screenHeight / 1.5)) return;
 
-    this._updateComponents(entity, { y: -10 });
+    this._updateComponents(entity, { y: -playerMovementSpeed });
   }
+
+  /**
+   * @description Moves the player down
+   * @param {object} entity
+   * @private
+   */
   _moveDown(entity) {
     const character = getComponentsFor(entity, "character");
     const { height: screenHeight } = app.renderer.screen;
     const { y: characterY } = character.position;
     const { height: characterHeight } = character.size;
+    const { playerMovementSpeed } = config.game;
 
     if (!(characterY < screenHeight - characterHeight / 2)) return;
 
-    this._updateComponents(entity, { y: 10 });
+    this._updateComponents(entity, { y: playerMovementSpeed });
   }
 
+  /**
+   * @description Moves the player to x position
+   * @param {object} entity
+   * @param {number} x position to move
+   * @private
+   */
   _moveToX(entity, x) {
     this._updateComponents(entity, { x }, { reset: true });
   }
 
+  /**
+   * @description Updates the position of the components
+   * @param {object} entity
+   * @param {object} data
+   * @param {object} options
+   * @private
+   */
   _updateComponents(entity, data, options) {
     const laser = getComponentsFor(entity, "laser");
     const character = getComponentsFor(entity, "character");

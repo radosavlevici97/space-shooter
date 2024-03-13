@@ -14,6 +14,11 @@ export default class EnemyFireSystem extends System {
     this._addEvents(hitContainer);
   }
 
+  /**
+   * @description Add the listeners
+   * @param {object} hitContainer container to hit
+   * @private
+   */
   _addEvents(hitContainer) {
     hitContainer.on("click", (e) => {
       this._fire(e);
@@ -24,6 +29,11 @@ export default class EnemyFireSystem extends System {
     });
   }
 
+  /**
+   * @description Rotate the laser according to mouse position
+   * @param {event} e
+   * @private
+   */
   _pointToTarget(e) {
     const { clientX, clientY } = e;
 
@@ -42,6 +52,11 @@ export default class EnemyFireSystem extends System {
     laser.rotate(newAngle);
   }
 
+  /**
+   * @description Fire one time
+   * @param {event} e
+   * @private
+   */
   _fire(e) {
     const { clientX, clientY } = e;
 

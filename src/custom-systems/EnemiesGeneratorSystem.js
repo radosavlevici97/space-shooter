@@ -20,9 +20,16 @@ export default class EnemyGeneratorSystem extends System {
     this._idGenerators = consecutiveNumbersGenerator(0);
     this._generateEnemies();
   }
-
+  /**
+   * @description Generates enemies entities and their components and add them into game.
+   * This operates in a loop, continuously generating enemies at regular intervals specified in the configuration, with each generation occurring after a random number of seconds."
+   * The movement and the fire system are called to fetch the new enemies created.
+   * @private
+   */
   async _generateEnemies() {
-    await delay(randomFromInterval(3, 15));
+    const { enemiesGenerationInterval } = config.game;
+    await delay(randomFromInterval(...enemiesGenerationInterval));
+
     const id = this._idGenerators.next().value;
 
     const enemyCharacterComponent = new EnemyCharacter({
@@ -55,13 +62,37 @@ export default class EnemyGeneratorSystem extends System {
     this._generateEnemies();
   }
 
+  /**
+   * @description Clean the enemies out of screen.
+   * Change background mode
+   * @public
+   */
   update(time) {
+    const { screen } = app.renderer;
     const { entities } = game;
     const enemies = entities.getEntities("enemy");
-    const { screen } = app.renderer;
+    const { background } = game.entities;
+    const backgroundPhysicsComponent = getComponentsFor(background, "physics");
 
-    enemies.forEach((enemy) => {
-      const character = getComponentsFor(enemy, "character");
+    if (!enemies?.length) {
+      backgroundPhysicsComponent.increaseWarpSpeed();
+      return;
+    }
+    backgroundPhysicsComponent.decreaseWarpSpeed();
+
+    this._cleanEntities(enemies, screen);
+  }
+
+  /**
+   * @description Clean the enemies out of screen.
+   * Change background mode
+   * @param {object} entities entities to check if they are out of the screen or not
+   * @param {Container} screen the screen container
+   * @private
+   */
+  _cleanEntities(entities, screen) {
+    entities.forEach((entity) => {
+      const character = getComponentsFor(entity, "character");
 
       if (!character) return;
 
@@ -69,7 +100,7 @@ export default class EnemyGeneratorSystem extends System {
 
       if (testForAABB(characterDisplay, screen)) return;
 
-      game.entities.remove(enemy);
+      game.entities.remove(entity);
     });
   }
 }

@@ -9,7 +9,12 @@ const config = {
       height: minHeight,
     },
   },
-  game: {},
+  game: {
+    enemiesGenerationInterval: [3, 6], // interval
+    enemiesMovementSlowness: 10,
+    playerMovementSpeed: 10,
+    enemiesFireRate: [3, 5], // interval
+  },
   enemyWeaponComponent: {
     speed: 200, //  px per second
   },
@@ -42,7 +47,8 @@ const config = {
     fov: 20,
     baseSpeed: 0.025,
     speed: 0,
-    warpSpeed: 0,
+    normalWarpSpeed: 0.01,
+    highWarpSpeed: 1,
   },
   backgroundStar: {
     amount: 2000,

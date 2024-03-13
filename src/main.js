@@ -53,7 +53,7 @@ async function init() {
   // Setup assets bundles (see assets.ts) and start up loading everything in background
   await initAssets();
 
-  game.init(Config.game, app.stage);
+  game.init(Config, app.stage);
   game.startGameLoop(app.ticker);
 }
 

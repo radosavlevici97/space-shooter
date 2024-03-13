@@ -15,6 +15,14 @@ export default class WeaponComponent extends Component {
     return this._firedAmmo;
   }
 
+  /**
+   * @description Create the ammo sprite and adds it to container
+   * Destroy the ammo when is out of bounds of the available area
+   * @param {object} data data for the fire animation
+   * @param {object} containerToLaunch Container to add the ammo
+   * @param {object} availableArea Available area
+   * @public
+   */
   fire(data, containerToLaunch, availableArea) {
     if (!data) console.error("Please provide data for launching");
 
@@ -45,6 +53,12 @@ export default class WeaponComponent extends Component {
     });
   }
 
+  /**
+   * @description Remove tweens and destroy the rocket.
+   * @param {object} rocket ammo fired
+   * @param {object} tl timeline
+   * @public
+   */
   destroyFiredAmmo(rocket, tl) {
     tl ? tl.kill() : gsap.killTweensOf(rocket);
 

@@ -10,18 +10,33 @@ export default class CollisionSystem extends System {
     super(args);
     this._deadPlayersFiredAmmo = [];
   }
+
+  /**
+   * @description Check the player and enemies collision.
+   * Cleans the fired ammo array
+   * @param {object} time pixijs ticker's time
+   * @public
+   */
   update(time) {
     this._playerColission();
     this._enemyColission();
     this._clean();
   }
 
+  /**
+   * @description Filter the deadPlayersFiredAmmo by removing the destroyed ammo
+   * @private
+   */
   _clean() {
     this._deadPlayersFiredAmmo = this._deadPlayersFiredAmmo.filter(
       (ammo) => !ammo.destroyed
     );
   }
 
+  /**
+   * @description Check the collision between player and the enemies's ammo.
+   * @private
+   */
   _playerColission() {
     const { entities } = game;
     const enemiesWithWeapons = entities.getEntities("enemy", "weapon");
@@ -48,6 +63,10 @@ export default class CollisionSystem extends System {
     });
   }
 
+  /**
+   * @description Check the collision between enemies and the player's ammo
+   * @private
+   */
   _enemyColission() {
     const { entities } = game;
     const { foreground } = entities;
@@ -71,6 +90,14 @@ export default class CollisionSystem extends System {
     });
   }
 
+  /**
+   * @description Clean the enemies out of screen.
+   * Change background mode
+   * @param {object} enemy enemy shooted
+   * @param {object} playerWeapon the player's weapon
+   * @param {Sprite} ammo the ammo fired by player
+   * @private
+   */
   async _generateExplosion(enemy, playerWeapon, ammo) {
     const { entities } = game;
     const character = getComponentsFor(enemy, "character");

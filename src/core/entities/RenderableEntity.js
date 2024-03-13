@@ -6,6 +6,11 @@ export default class RenderableEntity extends Entity {
     this.container = container;
   }
 
+  /**
+   * @description Attach the components if they are attachable. If they have a display object, adds it to container.
+   * @param {object} components Componenets to attach
+   * @public
+   */
   attachComponents(...components) {
     super.attachComponents(...components);
     const componentsToDisplay = components
@@ -16,6 +21,11 @@ export default class RenderableEntity extends Entity {
       this.container.addChild(...componentsToDisplay);
   }
 
+  /**
+   * @description Delete the components if they are attachable. If they have a display object, removes it to container.
+   * @param {object} components Componenets to attach
+   * @public
+   */
   deleteComponents(...components) {
     super.deleteComponents(...components);
     const componentsToRemoveFromDisplay = components

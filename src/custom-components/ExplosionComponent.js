@@ -16,6 +16,11 @@ export default class ExplosionComponent extends RenderableComponent {
     this.displayObject.alpha = alpha;
   }
 
+  /**
+   * @description Show the explosion
+   * @param {object} target Object with a position where the explosion should be generated
+   * @public
+   */
   async show(target) {
     const { showDuration } = this.config;
     const {
@@ -37,6 +42,11 @@ export default class ExplosionComponent extends RenderableComponent {
     });
   }
 
+  /**
+   * @description Hide the explosion
+   * @param {object} target Object with a position where the explosion should be generated
+   * @public
+   */
   async hide(target) {
     const { hideDuration } = this.config;
 

@@ -10,10 +10,13 @@ import { getComponentsFor } from "../Utils";
 export default class BackgroundSystem extends System {
   constructor() {
     super();
-    this._stars = [];
     this.init();
   }
 
+  /**
+   * @description Stars setup
+   * @public
+   */
   init() {
     const { background } = game.entities;
     const backgroundPhysicsComponent = new BackgroundPhysics({
@@ -26,9 +29,9 @@ export default class BackgroundSystem extends System {
     const { amount } = Config.backgroundStar;
     const { cameraZ } = backgroundPhysicsComponent;
 
-    this._stars = Array.from({ length: amount }, (_, i) => {
+    Array.from({ length: amount }, (_, i) => {
       const star = new BackgroundStar({
-        name: "star",
+        name: `star${i}`,
         displayObjectSource: Sprite,
         asset: "star",
         config: Config.backgroundStar,
@@ -42,19 +45,25 @@ export default class BackgroundSystem extends System {
     });
   }
 
+  /**
+   * @description Update's star position and scale on every frame, based on background physics properties.
+   * @param {object} time pixijs ticker's time
+   * @public
+   */
   update(time) {
     const { background } = game.entities;
 
     const backgroundPhysicsComponent = getComponentsFor(background, "physics");
-
+    const backgroundStars = getComponentsFor(background, "star");
     backgroundPhysicsComponent.update(time);
 
     const { cameraZ, fov, speed } = backgroundPhysicsComponent;
     const { width, height } = app.renderer.screen;
 
-    this._stars.forEach((star) => {
+    backgroundStars.forEach((star) => {
       if (star.z < cameraZ) star.randomize(cameraZ, false);
 
+      // Map star 3d position to 2d with really simple projection
       const z = star.z - cameraZ;
 
       star.update({ fov, width, height, z, speed });

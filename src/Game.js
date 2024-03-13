@@ -7,7 +7,6 @@ import RenderableEntity from "./core/entities/RenderableEntity";
 import EnemyFireSystem from "./custom-systems/fire-system/EnemyFireSystem";
 import LaserComponent from "./custom-components/LaserComponent";
 import PlayerFireSystem from "./custom-systems/fire-system/PlayerFireSystem";
-import Config from "./Config";
 import EnemyGeneratorSystem from "./custom-systems/EnemiesGeneratorSystem";
 import BackgroundSystem from "./custom-systems/BackgroundSystem";
 import PlayerMovementSystem from "./custom-systems/movement-system/PlayerMovementSystem";
@@ -25,6 +24,12 @@ class Game {
     this.hitContainer.hitArea = this._hitArea;
   }
 
+  /**
+   * @description Setup the initial components, entities and systems
+   * @param {object} config Game config
+   * @param {Container} container The main container of the game which right now is app.stage.
+   * @public
+   */
   init(config, container) {
     this.entities = new EntityManager(container, config);
     this.systems = new Manager(null, config);
@@ -34,24 +39,24 @@ class Game {
       displayObjectSource: Sprite,
       name: "character",
       asset: "shooter",
-      config: Config.playerComponent,
+      config: config.playerComponent,
     });
 
     const counterComponent = new CounterComponent({
       name: "counter",
       displayObjectSource: Text,
-      config: Config.counterComponent,
+      config: config.counterComponent,
     });
 
     const laserComponent = new LaserComponent({
       name: "laser",
-      config: Config.laserComponent,
+      config: config.laserComponent,
     });
 
     const playerWeaponComponent = new WeaponComponent({
       name: "weapon",
       ammoAsset: "rocket",
-      config: Config.playerWeaponComponent,
+      config: config.playerWeaponComponent,
     });
 
     this.addEntities({
@@ -91,19 +96,30 @@ class Game {
   }
 
   /**
-   * @description Adds features
-   * @param {object} featuresList A list of features to add
+   * @description Adds entities
+   * @param {object} entitiesList A list of entities to add
    * @param {object} options
    * @public
    */
-  addEntities(featuresList, options) {
-    this.entities.add(featuresList, options);
+  addEntities(entitiesList, options) {
+    this.entities.add(entitiesList, options);
   }
 
+  /**
+   * @description Adds systems
+   * @param {object} systemsList A list of systems to add
+   * @param {object} options
+   * @public
+   */
   addSystems(systems, options) {
     this.systems.add(systems, options);
   }
 
+  /**
+   * @description Start the game ticker and execute all systems.
+   * @param {object} ticker Pixijs ticker
+   * @public
+   */
   startGameLoop(ticker) {
     ticker.add((time) => {
       this.systems.all.forEach((system) => {
@@ -112,6 +128,12 @@ class Game {
     });
   }
 
+  /**
+   * @description Resize the hit area
+   * @param {number} width Width
+   * @param {number} height Height
+   * @public
+   */
   resize(width, height) {
     this._hitArea.x = 0;
     this._hitArea.y = 0;
