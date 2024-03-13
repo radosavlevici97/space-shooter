@@ -1,11 +1,11 @@
 {
-  "name": "bubbo-bubbo",
+  "name": "space-shooter",
   "version": "1.0.0",
   "type": "module",
-  "description": "A simple PixiJS game project to help developers learn how a professional makes games using the PixiJS library.",
+  "description": "A simple PixiJS game project.",
   "author": {
-    "name": "AshsHub",
-    "url": "https://github.com/AshsHub"
+    "name": "radosavlevici97",
+    "url": "https://github.com/radosavlevici97"
   },
   "scripts": {
     "prestart": "run-s assets",
