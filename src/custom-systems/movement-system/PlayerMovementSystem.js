@@ -25,6 +25,7 @@ export default class PlayerMovementSystem extends System {
   update() {
     // Keyboard
     const { player } = game.entities;
+
     if (Keyboard.isKeyDown("ArrowLeft", "KeyA")) this._moveLeft(player);
     if (Keyboard.isKeyDown("ArrowRight", "KeyD")) this._moveRight(player);
 
@@ -82,6 +83,7 @@ export default class PlayerMovementSystem extends System {
   _updateComponents(entity, data, options) {
     const laser = getComponentsFor(entity, "laser");
     const character = getComponentsFor(entity, "character");
+
     character.updatePosition(data, options);
     laser.updatePosition(data, options);
   }

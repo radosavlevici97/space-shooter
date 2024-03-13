@@ -35,7 +35,9 @@ export default class BackgroundSystem extends System {
       });
 
       star.randomize(cameraZ, true);
+
       background.attachComponents(star);
+
       return star;
     });
   }
@@ -52,7 +54,9 @@ export default class BackgroundSystem extends System {
 
     this._stars.forEach((star) => {
       if (star.z < cameraZ) star.randomize(cameraZ, false);
+
       const z = star.z - cameraZ;
+
       star.update({ fov, width, height, z, speed });
     });
   }
