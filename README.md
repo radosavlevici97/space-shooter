@@ -55,4 +55,4 @@ This game uses GSAP for its animations. You can use the free version of GSAP for
 
 ---
 
-> Author [@AshsHub](https://github.com/AshsHub)
+> Author [@radosavlevici97](https://github.com/https://github.com/radosavlevici97)
