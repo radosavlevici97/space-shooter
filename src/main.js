@@ -1,4 +1,4 @@
-import { Application, Assets } from "pixi.js";
+import { Application } from "pixi.js";
 import { initAssets } from "./assets";
 import Config from "./Config";
 import { game } from "./Game";

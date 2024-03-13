@@ -18,26 +18,6 @@ export function getUrlParam(param) {
 }
 
 /**
- * @description Gets random integer between min and max
- * @param {number} min
- * @param {number} max
- * @returns {number} Random int.
- */
-export function getRandomInt(min, max) {
-  return Math.floor(getRandomFloat(min, max + 1));
-}
-
-/**
- * @description Gets random float between min and max
- * @param {number} min
- * @param {number} max
- * @returns {number} Random float.
- */
-export function getRandomFloat(min, max) {
-  return prng() * (max - min) + min;
-}
-
-/**
  * @description Returns a promise that resolves when certain amount of time has passed
  * @param {number} seconds
  * @param {Function} callback
@@ -48,7 +28,7 @@ export function delay(seconds, callback) {
 }
 
 export function testForAABB(object1, object2) {
-  if (object1.visible == false || object2.visible == false) {
+  if (object1.visible === false || object2.visible === false) {
     return false;
   }
   const bounds1 = object1.getBounds();
