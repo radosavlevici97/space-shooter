@@ -51,22 +51,26 @@ export default class BackgroundSystem extends System {
    * @public
    */
   update(time) {
-    const { background } = game.entities;
+    const { entities } = game;
+    const { background } = entities;
+    const enemies = entities.getEntities("enemy");
 
     const backgroundPhysicsComponent = getComponentsFor(background, "physics");
     const backgroundStars = getComponentsFor(background, "star");
-    backgroundPhysicsComponent.update(time);
 
     const { cameraZ, fov, speed } = backgroundPhysicsComponent;
     const { width, height } = app.renderer.screen;
 
+    !enemies?.length
+      ? backgroundPhysicsComponent.increaseWarpSpeed()
+      : backgroundPhysicsComponent.decreaseWarpSpeed();
+
+    backgroundPhysicsComponent.update(time);
+
     backgroundStars.forEach((star) => {
       if (star.z < cameraZ) star.randomize(cameraZ, false);
 
-      // Map star 3d position to 2d with really simple projection
-      const z = star.z - cameraZ;
-
-      star.update({ fov, width, height, z, speed });
+      star.update({ fov, width, height, cameraZ, speed });
     });
   }
 }

@@ -6,9 +6,9 @@ import { testForAABB } from "../Utils";
 export default class WeaponComponent extends Component {
   constructor({ ammoAsset, ...args }) {
     super(args);
+    this.isFiring = false;
     this._ammoAsset = ammoAsset;
     this._firedAmmo = [];
-    this.isFiring = false;
   }
 
   get firedAmmo() {

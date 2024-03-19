@@ -20,6 +20,20 @@ export default class EnemyGeneratorSystem extends System {
     this._idGenerators = consecutiveNumbersGenerator(0);
     this._generateEnemies();
   }
+
+  /**
+   * @description Clean the enemies out of screen.
+   * Change background mode
+   * @public
+   */
+  update(time) {
+    const { screen } = app.renderer;
+    const { entities } = game;
+    const enemies = entities.getEntities("enemy");
+
+    this._cleanEntities(enemies, screen);
+  }
+
   /**
    * @description Generates enemies entities and their components and add them into game.
    * This operates in a loop, continuously generating enemies at regular intervals specified in the configuration, with each generation occurring after a random number of seconds."
@@ -60,27 +74,6 @@ export default class EnemyGeneratorSystem extends System {
     fireSystem.updateEntities();
 
     this._generateEnemies();
-  }
-
-  /**
-   * @description Clean the enemies out of screen.
-   * Change background mode
-   * @public
-   */
-  update(time) {
-    const { screen } = app.renderer;
-    const { entities } = game;
-    const enemies = entities.getEntities("enemy");
-    const { background } = game.entities;
-    const backgroundPhysicsComponent = getComponentsFor(background, "physics");
-
-    if (!enemies?.length) {
-      backgroundPhysicsComponent.increaseWarpSpeed();
-      return;
-    }
-    backgroundPhysicsComponent.decreaseWarpSpeed();
-
-    this._cleanEntities(enemies, screen);
   }
 
   /**

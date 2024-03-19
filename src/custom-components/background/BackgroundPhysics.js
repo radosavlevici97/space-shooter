@@ -6,29 +6,42 @@ export default class BackgroundPhysics extends Component {
     this.init();
   }
 
+  get speed() {
+    return this._speed;
+  }
+
+  get fov() {
+    return this._fov;
+  }
+
+  get cameraZ() {
+    return this._cameraZ;
+  }
+
   init() {
     const { cameraZ, fov, baseSpeed, speed, normalWarpSpeed } = this.config;
-    this.cameraZ = cameraZ;
-    this.fov = fov;
-    this.baseSpeed = baseSpeed;
-    this.speed = speed;
-    this.warpSpeed = normalWarpSpeed;
+    this._cameraZ = cameraZ;
+    this._fov = fov;
+    this._speed = speed;
+    this._baseSpeed = baseSpeed;
+    this._warpSpeed = normalWarpSpeed;
   }
 
   update(time) {
     // Simple easing.
     const delta = time.deltaTime;
-    this.speed += (this.warpSpeed - this.speed) / 20;
-    this.cameraZ += delta * 10 * (this.speed + this.baseSpeed);
+    this._speed += (this._warpSpeed - this._speed) / 20;
+    this._cameraZ += delta * 10 * (this._speed + this._baseSpeed);
   }
 
   increaseWarpSpeed() {
     const { highWarpSpeed } = this.config;
-    !(this.warpSpeed === highWarpSpeed) && (this.warpSpeed = highWarpSpeed);
+    !(this._warpSpeed === highWarpSpeed) && (this._warpSpeed = highWarpSpeed);
   }
 
   decreaseWarpSpeed() {
     const { normalWarpSpeed } = this.config;
-    !(this.warpSpeed === normalWarpSpeed) && (this.warpSpeed = normalWarpSpeed);
+    !(this._warpSpeed === normalWarpSpeed) &&
+      (this._warpSpeed = normalWarpSpeed);
   }
 }

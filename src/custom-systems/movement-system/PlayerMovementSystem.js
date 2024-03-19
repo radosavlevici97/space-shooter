@@ -21,17 +21,6 @@ export default class PlayerMovementSystem extends System {
   }
 
   /**
-   * @description Attach the listeners.
-   * @private
-   */
-  _addEvents(container) {
-    container.on("rightclick", (e) => {
-      const { player } = game.entities;
-      this._moveToX(player, e.clientX);
-    });
-  }
-
-  /**
    * @description Update the keyboard and attach the callbacks
    * @public
    */
@@ -45,6 +34,17 @@ export default class PlayerMovementSystem extends System {
     if (Keyboard.isKeyDown("ArrowDown", "KeyS")) this._moveDown(player);
 
     Keyboard.update();
+  }
+
+  /**
+   * @description Attach the listeners.
+   * @private
+   */
+  _addEvents(container) {
+    container.on("rightclick", (e) => {
+      const { player } = game.entities;
+      this._moveToX(player, e.clientX);
+    });
   }
 
   /**

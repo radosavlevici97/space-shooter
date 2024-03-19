@@ -4,9 +4,9 @@ import { Container } from "pixi.js";
 export default class RenderableComponent extends Component {
   constructor({ displayObjectSource = Container, asset, ...args }) {
     super(args);
+    this.displayObject = this._create({ displayObjectSource, asset });
     this._attachable = this.config?.attachable || true;
     this._guidePositions = this.config?.guidePositions;
-    this.displayObject = this._create({ displayObjectSource, asset });
     this.init();
   }
 
@@ -39,14 +39,6 @@ export default class RenderableComponent extends Component {
 
   init() {}
 
-  _create({ displayObjectSource, asset }) {
-    if (!asset) {
-      return new displayObjectSource();
-    }
-
-    return displayObjectSource.from(asset);
-  }
-
   /**
    * @description Update the display object position.
    * @param {object} position
@@ -75,5 +67,13 @@ export default class RenderableComponent extends Component {
   removeChildren() {
     this.displayObject?.removeChildren() ||
       console.error("Sprites cannot add children anymore");
+  }
+
+  _create({ displayObjectSource, asset }) {
+    if (!asset) {
+      return new displayObjectSource();
+    }
+
+    return displayObjectSource.from(asset);
   }
 }
